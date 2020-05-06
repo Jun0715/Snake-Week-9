@@ -350,7 +350,61 @@ namespace Snake
 								writer.WriteLine(name + " " + current_level.ToString().PadLeft(2, '0') + " " + current_score.ToString().PadLeft(3, '0') + " " + finalscore.ToString().PadLeft(3, '0'));
 							}
 						}
-						Console.ReadKey();
+						
+						int count;
+
+						count = File.ReadLines(fullPath).Count();
+
+						string[,] arr = new string[count, 4];
+						int j;
+						using (StreamReader sr = File.OpenText(fullPath))
+						{
+							string s = "";
+							count = 0;
+							while ((s = sr.ReadLine()) != null)
+							{
+								string[] data = s.Split(' ');
+								j = 0;
+								foreach (string d in data)
+								{
+									arr[count, j] = d;
+									j += 1;
+								}
+								count += 1;
+							}
+						}
+
+						for (int i = 0; i < arr.GetLength(0) - 1; i++)
+						{
+							for (j = i; j < arr.GetLength(0); j++)
+							{
+								if (int.Parse(arr[i, 3]) < int.Parse(arr[j, 3])) // sort by descending by first index of each row
+								{
+									for (int k = 0; k < arr.GetLength(1); k++)
+									{
+										var temp = arr[i, k];
+										arr[i, k] = arr[j, k];
+										arr[j, k] = temp;
+									}
+								}
+							}
+						}
+
+						string rank_title = "     Name | Rank | Level | Score";
+						Console.SetCursorPosition((Console.WindowWidth - rank_title.Length) / 2, (Console.WindowHeight / 2) + 4);
+						Console.WriteLine(rank_title);
+
+						for (int i = 0; i < arr.Length; ++i)
+						{
+							if (i < 5)
+							{
+								string record_msg = String.Format("{0,10} | {1,4} | {2,5} | {3,5}", arr[i, 0], (i + 1), arr[i, 1], arr[i, 3]);
+								Console.SetCursorPosition((Console.WindowWidth - record_msg.Length) / 2, (Console.WindowHeight / 2) + 5 + i);
+								Console.Write(record_msg);
+							}
+							else continue;
+						}
+						Console.ReadLine();
 						return;
 					}
 				}

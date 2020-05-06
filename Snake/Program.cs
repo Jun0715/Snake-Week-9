@@ -51,6 +51,8 @@ namespace Snake
 			int lastspecialFoodTime = 0;//Define the life time of the special food 
 			int specialfoodDissapearTime = 10000;//Define the disappear time of the special food to 10 seconds which made the food disappears slower
 			
+			int increment_length = 0;
+			
 			int life = 3;
 			
 			int current_level = 1;
@@ -74,6 +76,7 @@ namespace Snake
             		};
 			
 			double sleepTime = 100;//Define the speed of the sname
+			double nextspeed = sleepTime;
 			int direction = right;//Define the moving direction of the snake  at beginning
 			Random randomNumbersGenerator = new Random();//Define the random number generator
 			Console.BufferHeight = Console.WindowHeight;//Set the screen size of the game to the console size
@@ -180,7 +183,7 @@ namespace Snake
 				if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;//if the snake head hit the bottom wall, the snake will pass through it and appear on the top wall
 				if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;//if the snake head hit the right wall, the snake will pass through it and appear on the left wall
 
-				int current_score = (snakeElements.Count - snakebody_size_origin -1) * 100 - negativePoints; //Calculate the score of the player
+				int current_score = (snakeElements.Count - increment_length - snakebody_size_origin -1) * 100 - negativePoints; //Calculate the score of the player
 				current_score = Math.Max(current_score, 0) - 1;   //round the score to int
 
 				if (current_score < 0)//if score less than 0, score equal 0
@@ -197,6 +200,24 @@ namespace Snake
 				Console.ForegroundColor = ConsoleColor.Red;//Set the font color to red	
 				Console.Write(level_title + current_level.ToString().PadLeft(3, '0'));//Display the text
 				
+				string win_title = "Next level Score: ";
+				Console.SetCursorPosition(20, 0);//Set position to top right corner  
+				Console.ForegroundColor = ConsoleColor.Red;//Set the font color to red	
+				Console.Write(win_title + win_score.ToString().PadLeft(3, '0'));//Display the text
+
+
+				string length_title = "Size: ";
+				Console.SetCursorPosition(50, 0);//Set position to top right corner  
+				Console.ForegroundColor = ConsoleColor.Red;//Set the font color to red	
+				Console.Write(length_title + snakeElements.Count.ToString().PadLeft(3, '0'));//Display the text	
+
+
+				string negative_title = "Speed: ";
+				Console.SetCursorPosition(70, 0);//Set position to top right corner  
+				Console.ForegroundColor = ConsoleColor.Red;//Set the font color to red	
+				Console.Write(negative_title + Math.Abs(Math.Round(sleepTime) - 100).ToString().PadLeft(3, '0'));//Display the text
+
+				
 				string life_title = "Life: ";
 				Console.SetCursorPosition(90, 0);
 				Console.ForegroundColor = ConsoleColor.Red;//Set the font color to red	
@@ -205,10 +226,14 @@ namespace Snake
 				//winning requirement
 				if (current_score / win_score > 0 && current_score>0)
 				{
-					int currentlength = snakeElements.Count;
+					increment_length += 1;
+					int currentlength = snakeElements.Count - increment_length;
 					current_level += 1;
 					negativePoints = 0;
 					win_score += 100;
+					nextspeed -= 10;
+					sleepTime = nextspeed;
+					foodDissapearTime -= 100;
 					for (int i = 1; i <(currentlength-snakebody_size_origin); ++i)
 					{
 						Position last = snakeElements.Dequeue();//Define the last position of the snake body

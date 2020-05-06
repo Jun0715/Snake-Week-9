@@ -53,6 +53,8 @@ namespace Snake
 			
 			int increment_length = 0;
 			
+			bool specialfoodflag = false;	//fix the specialfood cannot eating 2 times;
+			
 			int life = 3;
 			
 			int current_level = 1;
@@ -128,6 +130,7 @@ namespace Snake
 			
 			//position of the special food
 			Position specialfood;
+			specialfoodflag = true;
 			//randomize the position of the special food
 			do
 			{
@@ -271,6 +274,7 @@ namespace Snake
 					}
 					
 					//randomize the position of the special food
+					specialfoodflag = true;
 					do
 					{
 						specialfood = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
@@ -363,10 +367,11 @@ namespace Snake
 				if (direction == up) Console.Write("^");//the snake head turns up
 				if (direction == down) Console.Write("v");//the snake head turns down
 				
-				if (snakeNewHead.col == specialfood.col && snakeNewHead.row == specialfood.row && (Environment.TickCount - lastspecialFoodTime) < specialfoodDissapearTime)
+				if (snakeNewHead.col == specialfood.col && snakeNewHead.row == specialfood.row && (Environment.TickCount - lastspecialFoodTime) < specialfoodDissapearTime && specialfoodflag == true)
 				{
 					eat_player.PlaySync();
 					back_player.PlayLooping();
+					specialfoodflag = false;
 					for (int i = 0; i < (snakebody_size_origin+current_level)-1; ++i)
 					{
 						Console.SetCursorPosition(snakeHead.col, snakeHead.row);//set the column and row position of the snake head

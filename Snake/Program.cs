@@ -196,7 +196,7 @@ namespace Snake
 				string score_title = "Score: ";                                                                           
 				Console.SetCursorPosition((Console.WindowWidth - score_title.Length - 4), 0);//Set position to top right corner  
 				Console.ForegroundColor = ConsoleColor.Red;//Set the font color to red	
-				Console.Write(score_title + current_score.ToString().PadLeft(3, '0'));//Display the text
+				Console.Write(score_title + current_score.ToString().PadLeft(4, '0'));//Display the text
 				
 				string level_title = "Level: ";
 				Console.SetCursorPosition(0, 0);

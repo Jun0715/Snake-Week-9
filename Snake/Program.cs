@@ -394,7 +394,7 @@ namespace Snake
 						Console.SetCursorPosition((Console.WindowWidth - rank_title.Length) / 2, (Console.WindowHeight / 2) + 4);
 						Console.WriteLine(rank_title);
 
-						for (int i = 0; i < arr.Length; ++i)
+						for (int i = 0; i < count; ++i)
 						{
 							if (i < 5)
 							{

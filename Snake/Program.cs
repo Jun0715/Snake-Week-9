@@ -48,6 +48,9 @@ namespace Snake
 			int snakebody_size_origin = 3;//Define the initial length of snake
 			int win_score = 500;//Define the score of winning
 			
+			int lastspecialFoodTime = 0;//Define the life time of the special food 
+			int specialfoodDissapearTime = 10000;//Define the disappear time of the special food to 10 seconds which made the food disappears slower
+			
 			int life = 3;
 			
 			int current_level = 1;
@@ -75,6 +78,7 @@ namespace Snake
 			Random randomNumbersGenerator = new Random();//Define the random number generator
 			Console.BufferHeight = Console.WindowHeight;//Set the screen size of the game to the console size
 			lastFoodTime = Environment.TickCount;//Set the timer of the food
+			lastspecialFoodTime = Environment.TickCount;//Set the timer of the food
 			
 			//Initialize the length of the "snake tail"
 			Queue<Position> snakeElements = new Queue<Position>();
@@ -118,7 +122,21 @@ namespace Snake
 			Console.SetCursorPosition(food.col, food.row);//set the column and row position of the food
 			Console.ForegroundColor = ConsoleColor.Yellow;//set the foreground color to yellow
 			Console.Write("@");
-
+			
+			//position of the special food
+			Position specialfood;
+			//randomize the position of the special food
+			do
+			{
+				specialfood = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
+					randomNumbersGenerator.Next(0, Console.WindowWidth));
+			}
+			//while the snake or the obstacles touches the food, its position will always changed
+			while (snakeElements.Contains(specialfood) || obstacles.Contains(specialfood) || (food.row == specialfood.row && food.col == specialfood.col));
+			Console.SetCursorPosition(specialfood.col, specialfood.row);//set the column and row position of the food
+			Console.ForegroundColor = ConsoleColor.Yellow;//set the foreground color to yellow
+			Console.Write("+");
+			
 			foreach (Position position in snakeElements)
 			{
 				Console.SetCursorPosition(position.col, position.row);//set the column and row position of snake elements
@@ -226,6 +244,20 @@ namespace Snake
 						Console.SetCursorPosition(obstacle.col, obstacle.row);
 						Console.Write("=");
 					}
+					
+					//randomize the position of the special food
+					do
+					{
+						specialfood = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
+							randomNumbersGenerator.Next(0, Console.WindowWidth));
+					}
+					//while the snake or the obstacles touches the food, its position will always changed
+					while (snakeElements.Contains(specialfood) || obstacles.Contains(specialfood) || (food.row == specialfood.row && food.col == specialfood.col));
+					Console.SetCursorPosition(specialfood.col, specialfood.row);//set the column and row position of the food
+					Console.ForegroundColor = ConsoleColor.Yellow;//set the foreground color to yellow
+					Console.Write("+");
+
+					lastspecialFoodTime = Environment.TickCount;//gets the millisecond count from the computer's system timer
 				}
 				
 				if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))//if the head of the snake hit the body of snake or obstacle
@@ -305,7 +337,21 @@ namespace Snake
 				if (direction == left) Console.Write("<");//the snake head turns left
 				if (direction == up) Console.Write("^");//the snake head turns up
 				if (direction == down) Console.Write("v");//the snake head turns down
-
+				
+				if (snakeNewHead.col == specialfood.col && snakeNewHead.row == specialfood.row && (Environment.TickCount - lastspecialFoodTime) < specialfoodDissapearTime)
+				{
+					eat_player.PlaySync();
+					back_player.PlayLooping();
+					for (int i = 0; i < (snakebody_size_origin+current_level)-1; ++i)
+					{
+						Console.SetCursorPosition(snakeHead.col, snakeHead.row);//set the column and row position of the snake head
+						Console.ForegroundColor = ConsoleColor.DarkGray;//set the foreground color to dark grey
+						Console.Write("*");//this is the body of snake
+						snakeElements.Enqueue(snakeNewHead);
+						Console.SetCursorPosition(snakeNewHead.col, snakeNewHead.row);
+						Console.ForegroundColor = ConsoleColor.Gray;
+					}
+				}
 
 				if (snakeNewHead.col == food.col && snakeNewHead.row == food.row)
 				{
@@ -365,7 +411,14 @@ namespace Snake
 				Console.SetCursorPosition(food.col, food.row);//set the food column and row position
 				Console.ForegroundColor = ConsoleColor.Yellow;//set the foreground color to yellow
 				Console.Write("@");
-
+				
+				if (snakeElements.Contains(specialfood))
+				{
+					Console.SetCursorPosition(specialfood.col, specialfood.row);
+					Console.ForegroundColor = ConsoleColor.DarkGray;//set the foreground color to dark grey
+					Console.Write("*");//this is the body of snake
+				}
+				
 				sleepTime -= 0.01;//deducts the sleep time by 0.01
 
 				Thread.Sleep((int)sleepTime);//suspends the current thread for the specified number of milliseconds

@@ -432,7 +432,13 @@ namespace Snake
 					while (snakeElements.Contains(food) || obstacles.Contains(food));
 					lastFoodTime = Environment.TickCount;//gets the millisecond count from the computer's system timer
 				}
-
+				
+				if (Environment.TickCount - lastspecialFoodTime >= specialfoodDissapearTime)
+				{
+					Console.SetCursorPosition(specialfood.col, specialfood.row);
+				    	Console.Write(" ");
+				}
+				
 				Console.SetCursorPosition(food.col, food.row);//set the food column and row position
 				Console.ForegroundColor = ConsoleColor.Yellow;//set the foreground color to yellow
 				Console.Write("@");

@@ -426,6 +426,7 @@ namespace Snake
 					eat_player.PlaySync();
 					back_player.PlayLooping();
 					specialfoodflag = false;
+					life += 1;
 					for (int i = 0; i < (snakebody_size_origin+current_level)-1; ++i)
 					{
 						Console.SetCursorPosition(snakeHead.col, snakeHead.row);//set the column and row position of the snake head

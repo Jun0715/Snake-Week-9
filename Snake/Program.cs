@@ -298,7 +298,7 @@ namespace Snake
 						List<Position> tempobstacles = new List<Position>();
 						foreach (Position obstacle in obstacles)
 						{
-							if (obstacle.col != snakeNewHead.col && obstacle.row != snakeNewHead.row) tempobstacles.Add(obstacle);
+							if (!(obstacle.col == snakeNewHead.col && obstacle.row == snakeNewHead.row)) tempobstacles.Add(obstacle);
 						}
 
 						obstacles.Clear();

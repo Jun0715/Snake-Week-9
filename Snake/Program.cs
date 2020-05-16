@@ -183,8 +183,8 @@ namespace Snake
 					snakeHead.col + nextDirection.col);//Set the next body movind direction to the head of snake
 
 				if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 2;//if the snake head hit the left wall, the snake will pass through it and appear on the right wall
-				if (snakeNewHead.row < 0) snakeNewHead.row = Console.WindowHeight - 1;//if the snake head hit the top wall, the snake will pass through it and appear on the bottom wall
-				if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;//if the snake head hit the bottom wall, the snake will pass through it and appear on the top wall
+				if (snakeNewHead.row < 1) snakeNewHead.row = Console.WindowHeight - 1;//if the snake head hit the top wall, the snake will pass through it and appear on the bottom wall
+				if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 1;//if the snake head hit the bottom wall, the snake will pass through it and appear on the top wall
 				if (snakeNewHead.col >= Console.WindowWidth-1) snakeNewHead.col = 0;//if the snake head hit the right wall, the snake will pass through it and appear on the left wall
 
 				int current_score = (snakeElements.Count - increment_length - snakebody_size_origin -1) * 100 - negativePoints; //Calculate the score of the player

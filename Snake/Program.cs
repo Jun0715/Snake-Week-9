@@ -156,7 +156,7 @@ namespace Snake
 
 				if (Console.KeyAvailable)	//To gets a value indicating whether a key press is available in the input stream.
 				{
-					ConsoleKeyInfo userInput = Console.ReadKey();
+					ConsoleKeyInfo userInput = Console.ReadKey(true);
 					if (userInput.Key == ConsoleKey.LeftArrow)
 					{
 						if (direction != right) direction = left;
@@ -234,8 +234,12 @@ namespace Snake
 					current_level += 1;
 					negativePoints = 0;
 					win_score += 100;
-					nextspeed -= 10;
-					sleepTime = nextspeed;
+					if (sleepTime <= 10) sleepTime = 10;
+					else
+					{
+						nextspeed -= 10;
+						sleepTime = nextspeed;
+					}
 					foodDissapearTime -= 100;
 					for (int i = 1; i <(currentlength-snakebody_size_origin); ++i)
 					{
@@ -404,7 +408,7 @@ namespace Snake
 							}
 							else continue;
 						}
-						Console.ReadLine();
+						Console.ReadKey(true);
 						return;
 					}
 				}
@@ -469,7 +473,8 @@ namespace Snake
 					Console.SetCursorPosition(food.col, food.row);	//set the cursor to that position
 					Console.ForegroundColor = ConsoleColor.Yellow;	//set the color of food to Yellow
 					Console.Write("@");	//set the shape of food
-					sleepTime--;
+					if (sleepTime <= 10) sleepTime = 10;
+					else sleepTime--;
 				}
 				else
 				{

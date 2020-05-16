@@ -526,7 +526,8 @@ namespace Snake
 					Console.Write("*");//this is the body of snake
 				}
 				
-				sleepTime -= 0.01;//deducts the sleep time by 0.01
+				if (sleepTime <= 10) sleepTime = 10;
+				else sleepTime -= 0.01;//deducts the sleep time by 0.01
 
 				Thread.Sleep((int)sleepTime);//suspends the current thread for the specified number of milliseconds
 			}

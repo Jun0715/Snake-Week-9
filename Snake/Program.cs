@@ -443,7 +443,7 @@ namespace Snake
 					}
 				}
 
-				if (snakeNewHead.col == food.col && snakeNewHead.row == food.row)
+				if ((snakeNewHead.col == food.col && snakeNewHead.row == food.row)||(snakeNewHead.col == food.col+1 && snakeNewHead.row == food.row))
 				{
 					if (snakeNewHead.col == food.col)
 					{
@@ -455,6 +455,7 @@ namespace Snake
 						Console.SetCursorPosition(food.col, food.row);
 						Console.Write(" ");
 					}
+					
 					eat_player.PlaySync();
 					
 					back_player.PlayLooping();

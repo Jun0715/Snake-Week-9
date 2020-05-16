@@ -90,7 +90,7 @@ namespace Snake
 			Queue<Position> snakeElements = new Queue<Position>();
 			for (int i = 0; i <= snakebody_size_origin; i++)
 			{
-				snakeElements.Enqueue(new Position(0, i));
+				snakeElements.Enqueue(new Position(1, i));
 			}
 			
 			//Initialize the position of the obstacles
@@ -101,7 +101,7 @@ namespace Snake
 				do
 				{
 					obstacle = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),
-						randomNumbersGenerator.Next(0, Console.WindowWidth));//define a random place the obstacle into the game field
+						randomNumbersGenerator.Next(0, Console.WindowWidth-2));//define a random place the obstacle into the game field
 				}
 				while (snakeElements.Contains(obstacle) ||
 						obstacles.Contains(obstacle));
@@ -120,8 +120,8 @@ namespace Snake
 			//randomize the position of the food
 			do
 			{
-				food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-					randomNumbersGenerator.Next(0, Console.WindowWidth));
+				food = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),
+					randomNumbersGenerator.Next(0, Console.WindowWidth-3));
 			}
 			//while the snake or the obstacles touches the food, its position will always changed
 			while (snakeElements.Contains(food) || obstacles.Contains(food));
@@ -135,8 +135,8 @@ namespace Snake
 			//randomize the position of the special food
 			do
 			{
-				specialfood = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-					randomNumbersGenerator.Next(0, Console.WindowWidth));
+				specialfood = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),
+					randomNumbersGenerator.Next(0, Console.WindowWidth-2));
 			}
 			//while the snake or the obstacles touches the food, its position will always changed
 			while (snakeElements.Contains(specialfood) || obstacles.Contains(specialfood) || (food.row == specialfood.row && food.col == specialfood.col));
@@ -182,10 +182,10 @@ namespace Snake
 				Position snakeNewHead = new Position(snakeHead.row + nextDirection.row,
 					snakeHead.col + nextDirection.col);//Set the next body movind direction to the head of snake
 
-				if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 1;//if the snake head hit the left wall, the snake will pass through it and appear on the right wall
+				if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 2;//if the snake head hit the left wall, the snake will pass through it and appear on the right wall
 				if (snakeNewHead.row < 0) snakeNewHead.row = Console.WindowHeight - 1;//if the snake head hit the top wall, the snake will pass through it and appear on the bottom wall
 				if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;//if the snake head hit the bottom wall, the snake will pass through it and appear on the top wall
-				if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;//if the snake head hit the right wall, the snake will pass through it and appear on the left wall
+				if (snakeNewHead.col >= Console.WindowWidth-1) snakeNewHead.col = 0;//if the snake head hit the right wall, the snake will pass through it and appear on the left wall
 
 				int current_score = (snakeElements.Count - increment_length - snakebody_size_origin -1) * 100 - negativePoints; //Calculate the score of the player
 				current_score = Math.Max(current_score, 0) - 1;   //round the score to int
@@ -264,7 +264,7 @@ namespace Snake
 						do
 						{
 							obstacle = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),
-								randomNumbersGenerator.Next(0, Console.WindowWidth));//define a random place the obstacle into the game field
+								randomNumbersGenerator.Next(0, Console.WindowWidth-2));//define a random place the obstacle into the game field
 						}
 						while (snakeElements.Contains(obstacle) ||
 								obstacles.Contains(obstacle));
@@ -282,8 +282,8 @@ namespace Snake
 					specialfoodflag = true;
 					do
 					{
-						specialfood = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-							randomNumbersGenerator.Next(0, Console.WindowWidth));
+						specialfood = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),
+							randomNumbersGenerator.Next(0, Console.WindowWidth-2));
 					}
 					//while the snake or the obstacles touches the food, its position will always changed
 					while (snakeElements.Contains(specialfood) || obstacles.Contains(specialfood) || (food.row == specialfood.row && food.col == specialfood.col));
@@ -464,8 +464,8 @@ namespace Snake
 					Position obstacle = new Position();//Define a obstacle	position
 					do
 					{
-						obstacle = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-							randomNumbersGenerator.Next(0, Console.WindowWidth));//define a random place the obstacle into the game field
+						obstacle = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),
+							randomNumbersGenerator.Next(0, Console.WindowWidth-2));//define a random place the obstacle into the game field
 					}
 					while (snakeElements.Contains(obstacle) ||
 						obstacles.Contains(obstacle) ||
@@ -477,8 +477,8 @@ namespace Snake
 					
 					do
 					{
-						food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),
-							randomNumbersGenerator.Next(0, Console.WindowWidth));	//define a random place the food into the game field
+						food = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),
+							randomNumbersGenerator.Next(0, Console.WindowWidth-3));	//define a random place the food into the game field
 					}
 					while (snakeElements.Contains(food) || obstacles.Contains(food));
 					lastFoodTime = Environment.TickCount;
@@ -503,8 +503,8 @@ namespace Snake
 					Console.Write(" ");
 					do
 					{
-						food = new Position(randomNumbersGenerator.Next(0, Console.WindowHeight),//randomize the window height of the food position
-							randomNumbersGenerator.Next(0, Console.WindowWidth));//randomize the window width of the food position
+						food = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),//randomize the window height of the food position
+							randomNumbersGenerator.Next(0, Console.WindowWidth-3));//randomize the window width of the food position
 					}
 					while (snakeElements.Contains(food) || obstacles.Contains(food));
 					lastFoodTime = Environment.TickCount;//gets the millisecond count from the computer's system timer

@@ -39,6 +39,8 @@ namespace Snake
 
 			Console.Clear();
 			
+			bool reverse = false;
+			
 			byte right = 0;//Define the direction of right of snake
 			byte left = 1;//Define the direction of left of snake
 			byte down = 2;//Define the direction of down of snake
@@ -230,6 +232,14 @@ namespace Snake
 				//winning requirement
 				if (current_score / win_score > 0 && current_score>0)
 				{
+					if (current_level > 4)
+					{
+						right = 1;//Define the direction of right of snake
+						left = 0;//Define the direction of left of snake
+						down = 3;//Define the direction of down of snake
+						up = 2;//Define the direction of up of snake
+						reverse = true;
+					}
 					increment_length += 1;
 					int currentlength = snakeElements.Count - increment_length;
 					current_level += 1;
@@ -424,11 +434,20 @@ namespace Snake
 				snakeElements.Enqueue(snakeNewHead);
 				Console.SetCursorPosition(snakeNewHead.col, snakeNewHead.row);
 				Console.ForegroundColor = ConsoleColor.Gray;
-				if (direction == right) Console.Write(">");//the snake head turns right
-				if (direction == left) Console.Write("<");//the snake head turns left
-				if (direction == up) Console.Write("^");//the snake head turns up
-				if (direction == down) Console.Write("v");//the snake head turns down
-				
+				if (reverse == true)
+				{
+					if (direction == right) Console.Write("<");//the snake head turns right
+					if (direction == left) Console.Write(">");//the snake head turns left
+					if (direction == up) Console.Write("v");//the snake head turns up
+					if (direction == down) Console.Write("^");//the snake head turns down
+				}
+				else
+				{
+					if (direction == right) Console.Write(">");//the snake head turns right
+					if (direction == left) Console.Write("<");//the snake head turns left
+					if (direction == up) Console.Write("^");//the snake head turns up
+					if (direction == down) Console.Write("v");//the snake head turns down
+				}
 				if (snakeNewHead.col == specialfood.col && snakeNewHead.row == specialfood.row && (Environment.TickCount - lastspecialFoodTime) < specialfoodDissapearTime && specialfoodflag == true)
 				{
 					eat_player.PlaySync();

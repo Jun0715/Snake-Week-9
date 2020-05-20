@@ -315,6 +315,9 @@ namespace Snake
 						Position last = snakeElements.Dequeue();//Define the last position of the snake body
 						Console.SetCursorPosition(last.col, last.row);//Get the curser of that position
 						Console.Write(" ");//Display space at that field
+						
+						sleepTime += 5;
+						if(sleepTime > nextspeed) sleepTime = nextspeed;
 					}
 					else
 					{

@@ -54,6 +54,9 @@ namespace Snake
 			int lastspecialFoodTime = 0;//Define the life time of the special food 
 			int specialfoodDissapearTime = 10000;//Define the disappear time of the special food to 10 seconds which made the food disappears slower
 			
+			int lastTrapTime = 0;//Define the life time of the trap
+			int TrapDissapearTime = 5000;//Define the disappear time of the trap to 5 second
+			
 			int increment_length = 0;
 			
 			bool specialfoodflag = false;	//fix the specialfood cannot eating 2 times;
@@ -145,6 +148,20 @@ namespace Snake
 			Console.SetCursorPosition(specialfood.col, specialfood.row);//set the column and row position of the food
 			Console.ForegroundColor = ConsoleColor.Yellow;//set the foreground color to yellow
 			Console.Write("\u2736");
+			
+			
+			//position of the trap
+			Position trap;
+			//randomize the position of the trap
+			do
+			{
+				trap = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),
+					randomNumbersGenerator.Next(0, Console.WindowWidth - 2));
+			}
+			while (snakeElements.Contains(trap) || obstacles.Contains(trap) || (food.row == trap.row && food.col == trap.col));
+			Console.SetCursorPosition(trap.col, trap.row);//set the column and row position of the trap
+			Console.ForegroundColor = ConsoleColor.Cyan;//set the foreground color to cyan
+			Console.Write("\u1F4A3");
 			
 			foreach (Position position in snakeElements)
 			{
@@ -304,7 +321,12 @@ namespace Snake
 					lastspecialFoodTime = Environment.TickCount;//gets the millisecond count from the computer's system timer
 				}
 				
-				if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))//if the head of the snake hit the body of snake or obstacle
+				if (snakeNewHead.col == trap.col && snakeNewHead.row == trap.row)
+				{
+					life = -1;
+				}
+				
+				if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead) || (trap.col == snakeNewHead.col && trap.row == snakeNewHead.row))//if the head of the snake hit the body of snake or obstacle or trap
 				{
 					if (life > 0)
 					{
@@ -534,11 +556,28 @@ namespace Snake
 					lastFoodTime = Environment.TickCount;//gets the millisecond count from the computer's system timer
 				}
 				
+				if (Environment.TickCount - lastTrapTime >= TrapDissapearTime)
+				{
+					Console.SetCursorPosition(trap.col, trap.row);
+					Console.Write(" ");
+					do
+					{
+						trap = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),//randomize the window height of the food position
+							randomNumbersGenerator.Next(0, Console.WindowWidth - 2));//randomize the window width of the food position
+					}
+					while (snakeElements.Contains(trap) || obstacles.Contains(trap));
+					lastTrapTime = Environment.TickCount;//gets the millisecond count from the computer's system timer
+				}
+				
 				if (Environment.TickCount - lastspecialFoodTime >= specialfoodDissapearTime)
 				{
 					Console.SetCursorPosition(specialfood.col, specialfood.row);
 				    	Console.Write(" ");
 				}
+				
+				Console.SetCursorPosition(trap.col, trap.row);//set the trap column and trap position
+				Console.ForegroundColor = ConsoleColor.Cyan;//set the foreground color to cyan
+				Console.Write("\u1F4A3");
 				
 				Console.SetCursorPosition(food.col, food.row);//set the food column and row position
 				Console.ForegroundColor = ConsoleColor.Yellow;//set the foreground color to yellow

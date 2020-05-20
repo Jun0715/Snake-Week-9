@@ -562,8 +562,8 @@ namespace Snake
 					Console.Write(" ");
 					do
 					{
-						trap = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),//randomize the window height of the food position
-							randomNumbersGenerator.Next(0, Console.WindowWidth - 2));//randomize the window width of the food position
+						trap = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),//randomize the window height of the trap position
+							randomNumbersGenerator.Next(0, Console.WindowWidth - 2));//randomize the window width of the trap position
 					}
 					while (snakeElements.Contains(trap) || obstacles.Contains(trap));
 					lastTrapTime = Environment.TickCount;//gets the millisecond count from the computer's system timer

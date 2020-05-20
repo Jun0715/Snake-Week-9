@@ -232,7 +232,7 @@ namespace Snake
 				//winning requirement
 				if (current_score / win_score > 0 && current_score>0)
 				{
-					if (current_level > 4)
+					if (current_level > 3)
 					{
 						right = 1;//Define the direction of right of snake
 						left = 0;//Define the direction of left of snake

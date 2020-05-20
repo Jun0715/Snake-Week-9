@@ -161,7 +161,7 @@ namespace Snake
 			while (snakeElements.Contains(trap) || obstacles.Contains(trap) || (food.row == trap.row && food.col == trap.col));
 			Console.SetCursorPosition(trap.col, trap.row);//set the column and row position of the trap
 			Console.ForegroundColor = ConsoleColor.Cyan;//set the foreground color to cyan
-			Console.Write("\u1F4A3");
+			Console.Write("\u03C9");
 			
 			foreach (Position position in snakeElements)
 			{
@@ -577,7 +577,7 @@ namespace Snake
 				
 				Console.SetCursorPosition(trap.col, trap.row);//set the trap column and trap position
 				Console.ForegroundColor = ConsoleColor.Cyan;//set the foreground color to cyan
-				Console.Write("\u1F4A3");
+				Console.Write("\u03C9");
 				
 				Console.SetCursorPosition(food.col, food.row);//set the food column and row position
 				Console.ForegroundColor = ConsoleColor.Yellow;//set the foreground color to yellow

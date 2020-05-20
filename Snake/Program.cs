@@ -444,6 +444,8 @@ namespace Snake
 						Console.SetCursorPosition(snakeNewHead.col, snakeNewHead.row);
 						Console.ForegroundColor = ConsoleColor.Gray;
 					}
+					if (sleepTime <= 10) sleepTime = 10;
+					else sleepTime -= 5;
 				}
 
 				if ((snakeNewHead.col == food.col && snakeNewHead.row == food.row)||(snakeNewHead.col == food.col+1 && snakeNewHead.row == food.row))

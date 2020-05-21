@@ -547,6 +547,8 @@ namespace Snake
 					negativePoints = negativePoints + 50;
 					Console.SetCursorPosition(food.col, food.row);
 					Console.Write(" ");
+					Console.SetCursorPosition(food.col+1, food.row);
+					Console.Write(" ");
 					do
 					{
 						food = new Position(randomNumbersGenerator.Next(1, Console.WindowHeight),//randomize the window height of the food position
